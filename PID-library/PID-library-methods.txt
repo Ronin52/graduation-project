@@ -1,0 +1,20 @@
+==== datatype это float или int, в зависимости от выбранного (см. пример integer_calc) ====
+
+GyverPID();
+GyverPID(float new_kp, float new_ki, float new_kd, int16_t new_dt = 100);		// kp, ki, kd, dt
+	
+datatype setpoint = 0;		// заданная величина, которую должен поддерживать регулятор
+float input = 0;			// сигнал с датчика (например температура, которую мы регулируем)
+datatype output = 0;		// выход с регулятора на управляющее устройство (например величина ШИМ или угол поворота серво)
+	
+datatype getResult();												// возвращает новое значение при вызове (если используем свой таймер с периодом dt!)	
+datatype getResult(datatype new_setpoint, datatype new_input);		// принимает setpoint и input
+	
+datatype getResultTimer();											// возвращает новое значение не ранее, чем через dt миллисекунд (встроенный таймер с периодом dt)
+datatype getResultTimer(datatype new_setpoint, datatype new_input);	// тож самое, но принимает setpoint и input
+	
+void setDirection(uint8_t direction);						// направление регулирования: NORMAL (0) или REVERSE (1)
+void setMode(uint8_t mode);									// режим: работа по входной ошибке ON_ERROR (0) или по изменению ON_RATE (1)
+void setLimits(int min_output, int max_output);				// лимит выходной величины (например для ШИМ ставим 0-255)
+void setDt(int16_t new_dt);									// установка времени дискретизации (для getResultTimer)
+void tune(float new_kp, float new_ki, float new_kd);		// перенастройка коэффициентов (П, И, Д)
